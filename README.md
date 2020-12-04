@@ -1,8 +1,4 @@
-## Installation
-
-```bash
-$ npm install
-```
+# Commands
 
 ## Running in dev mode
 
