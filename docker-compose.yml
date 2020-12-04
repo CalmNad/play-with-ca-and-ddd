@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+    db:
+        image: postgres
+        container_name: usc-service-hr-postgresql-${TIER}
+        restart: always
+        env_file: ./src/infrastructure/.env.${TIER}
+        ports:
+            - 5432:5432
+        volumes:
+            - ./db-pg-${TIER}:/var/lib/postgresql/data
+        networks:
+            - usc-service-net
+
+networks:
+    usc-service-net:
+        driver: bridge
