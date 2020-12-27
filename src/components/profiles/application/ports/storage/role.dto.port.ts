@@ -1,0 +1,1 @@
+export { IRoleDTO } from "../common";

@@ -1,0 +1,1 @@
+export { IStateDTO } from "../common";

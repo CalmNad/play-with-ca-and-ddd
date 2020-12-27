@@ -1,19 +1,22 @@
 import { Inject } from "typedi";
 import { Query, Resolver } from "type-graphql";
 
-import { IStateService, TStateService } from "@profiles/core";
+import {
+    IStatesStories,
+    TStatesStories,
+} from "@profiles/application/ports/api";
 
-import { State } from "../models";
+import { StateDTO } from "../models";
 
 @Resolver()
 export class StateResolver {
     constructor(
-        @Inject(TStateService)
-        private readonly stateService: IStateService,
+        @Inject(TStatesStories)
+        private readonly statesStories: IStatesStories,
     ) {}
 
-    @Query(() => [State], { description: "Get all the profile's states" })
-    async states(): Promise<State[]> {
-        return await this.stateService.read();
+    @Query(() => [StateDTO], { description: "Get all the profile's states" })
+    async states(): Promise<StateDTO[]> {
+        return await this.statesStories.get();
     }
 }

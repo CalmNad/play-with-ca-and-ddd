@@ -23,6 +23,7 @@ export class initRoles1606306970584 implements MigrationInterface {
         `);
     }
 
+    // TODO: заюзать PROFILE_ROLES из core role.entity, и такое же для states
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
             TRUNCATE TABLE "roles" CASCADE

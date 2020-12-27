@@ -1,0 +1,1 @@
+export { IStateIdDTO } from "../common";

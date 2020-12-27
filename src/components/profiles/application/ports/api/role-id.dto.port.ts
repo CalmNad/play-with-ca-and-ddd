@@ -1,0 +1,1 @@
+export { IRoleIdDTO } from "../common";

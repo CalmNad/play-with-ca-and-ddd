@@ -14,7 +14,7 @@ export const config: ConnectionOptions = {
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
-    entities: [rootPath + "/src/components/**/*.entity{.ts,.js}"],
+    entities: [rootPath + "/src/components/**/*{.entity,.model}{.ts,.js}"],
     migrations: [rootPath + "/migrations/**/*{.ts,.js}"],
     cli: { migrationsDir: "migrations" },
     synchronize: process.env.TYPEORM_SYNCHRONIZE === "true",

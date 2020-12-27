@@ -14,13 +14,23 @@ directive @provides(fields: String!) on FIELD_DEFINITION
 directive @requires(fields: String!) on FIELD_DEFINITION
 
 type Mutation {
-  createProfile(data: ProfileCreateDTO!): Profile!
-  updateProfile(data: ProfileUpdateDTO!, id: Float!): Profile!
-  updateProfileState(id: Float!, stateId: Float!): Profile!
+  createProfile(data: ProfileCreateDTO!): ProfileDTO!
+  updateProfile(data: ProfileUpdateDTO!, id: Float!): ProfileDTO!
+  updateProfileState(id: Float!, stateId: Float!): ProfileDTO!
+}
+
+input ProfileCreateDTO {
+  email: String!
+  firstName: String!
+  lastName: String!
+  nickname: String!
+  phone: String!
+  roles: [RoleIdDTO!]!
+  state: StateIdDTO!
 }
 
 """The profile's model"""
-type Profile {
+type ProfileDTO {
   """"""
   email: String!
 
@@ -37,26 +47,22 @@ type Profile {
   nickname: String
 
   """"""
-  password: String
-
-  """"""
   phone: String
 
   """"""
-  roles: [Role!]!
+  roles: [RoleDTO!]!
 
   """"""
-  state: State!
+  state: StateDTO!
 }
 
-input ProfileCreateDTO {
-  email: String!
-  firstName: String!
-  lastName: String!
-  nickname: String!
-  phone: String!
-  roles: [RoleDTO!]!
-  state: StateDTO!
+input ProfileFilterDTO {
+  email: String
+  firstName: String
+  lastName: String
+  nickname: String
+  phone: String
+  state: StateFilterDTO
 }
 
 input ProfileUpdateDTO {
@@ -65,23 +71,26 @@ input ProfileUpdateDTO {
   lastName: String
   nickname: String
   phone: String
-  roles: [RoleDTO!]
-  state: StateDTO
+  roles: [RoleIdDTO!]
+  state: StateIdDTO
 }
 
 type Query {
+  """Get 'my' profile"""
+  me: ProfileDTO!
+
   """Get all the profiles"""
-  profiles: [Profile!]!
+  profiles(filter: ProfileFilterDTO): [ProfileDTO!]!
 
   """Get all the profile's roles"""
-  roles: [Role!]!
+  roles: [RoleDTO!]!
 
   """Get all the profile's states"""
-  states: [State!]!
+  states: [StateDTO!]!
 }
 
 """The profile role's model"""
-type Role {
+type RoleDTO {
   """The role's id"""
   id: Float!
 
@@ -89,12 +98,13 @@ type Role {
   name: String!
 }
 
-input RoleDTO {
+input RoleIdDTO {
+  """The role's id"""
   id: Float!
 }
 
 """The profile states' model"""
-type State {
+type StateDTO {
   """The state's id"""
   id: Float!
 
@@ -102,6 +112,11 @@ type State {
   name: String!
 }
 
-input StateDTO {
+input StateFilterDTO {
+  id: Float!
+}
+
+input StateIdDTO {
+  """The state's id"""
   id: Float!
 }

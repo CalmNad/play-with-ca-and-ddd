@@ -20,4 +20,7 @@ npm run test:graphql
 
 npm run compose:db:test
 npm run test:graphql:nocompose
+
+# execute the specified test suite with logging
+DEBUG=hr* npm run test:graphql:nocompose profiles.read.integration.test
 ```

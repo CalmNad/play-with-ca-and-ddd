@@ -1,19 +1,19 @@
 import { Inject } from "typedi";
 import { Query, Resolver } from "type-graphql";
 
-import { IRoleService, TRoleService } from "@profiles/core";
+import { IRolesStories, TRolesStories } from "@profiles/application/ports/api";
 
-import { Role } from "../models";
+import { RoleDTO } from "../models";
 
 @Resolver()
 export class RoleResolver {
     constructor(
-        @Inject(TRoleService)
-        private readonly roleService: IRoleService,
+        @Inject(TRolesStories)
+        private readonly rolesStories: IRolesStories,
     ) {}
 
-    @Query(() => [Role], { description: "Get all the profile's roles" })
-    async roles(): Promise<Role[]> {
-        return await this.roleService.read();
+    @Query(() => [RoleDTO], { description: "Get all the profile's roles" })
+    async roles(): Promise<RoleDTO[]> {
+        return await this.rolesStories.get();
     }
 }
