@@ -1,9 +1,28 @@
-// import { BaseEntity, Entity, Column } from "typeorm";
+import {
+    BaseEntity,
+    Entity,
+    Column,
+    PrimaryColumn,
+    ManyToOne,
+    // JoinColumn,
+} from "typeorm";
 
-// import { IRefreshTokenDTO } from "@profiles/core";
+import { IRefreshTokenDTO } from "@profiles/application/ports/storage";
 
-// @Entity("refresh_tokens")
-// export class RefreshToken extends BaseEntity implements IRefreshTokenDTO {
-//     @Column("uuid", { unique: true })
-//     token!: string;
-// }
+import { Profile } from ".";
+
+@Entity("refresh_tokens")
+export class RefreshToken extends BaseEntity implements IRefreshTokenDTO {
+    @PrimaryColumn("uuid", { unique: true })
+    token!: string;
+
+    @Column("timestamp")
+    lifetime!: Date;
+
+    @Column({ type: "integer", name: "profileId" })
+    profileId!: number;
+
+    @ManyToOne(() => Profile, (profile) => profile.refreshTokens)
+    // @JoinColumn({ name: "profileId" })
+    profile!: Profile;
+}

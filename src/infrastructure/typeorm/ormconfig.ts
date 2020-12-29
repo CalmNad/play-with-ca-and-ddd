@@ -24,3 +24,6 @@ export const config: ConnectionOptions = {
     logging: process.env.TYPEORM_LOGGING === "true",
     cache: true,
 };
+
+// FIXME: нужно для generate, но мешает запуску
+// module.exports = config;

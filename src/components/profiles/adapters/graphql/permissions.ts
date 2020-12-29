@@ -1,5 +1,5 @@
 import { ApolloError } from "apollo-server";
-import { allow, deny, and, rule, shield } from "graphql-shield";
+import { allow, deny, and, rule, shield, not } from "graphql-shield";
 
 // TBD: по хорошему правила доступа нужно определять на уровне core
 // TBD: иначе получается размазывание бизнес знаний
@@ -42,15 +42,16 @@ const isHRManager = rule()(async (parent, args, { user }) => {
 export const permissions = shield(
     {
         Query: {
-            "*": deny,
+            // FIXME: если запретить доступ полностью - gateway apollo federation не может подключиться
+            // "*": deny,
             me: isAuthenticated,
-            profiles: allow, // and(isAuthenticated, isHRManager),
+            profiles: and(isAuthenticated, isHRManager),
             roles: allow,
             states: allow,
         },
         Mutation: {
             "*": deny,
-            //     login: not(isAuthenticated),
+            login: not(isAuthenticated),
             createProfile: and(isAuthenticated, isHRManager),
             updateProfile: and(isAuthenticated, isHRManager),
             updateProfileState: and(isAuthenticated, isHRManager),

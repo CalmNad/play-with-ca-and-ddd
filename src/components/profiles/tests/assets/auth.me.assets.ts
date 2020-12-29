@@ -53,19 +53,4 @@ const db = {
     },
 };
 
-// const context = {
-//     dispatcher: {
-//         user: Object.assign({}, db.dispatcher) as any,
-//     },
-//     HR: {
-//         user: Object.assign({}, db.HR) as any,
-//     },
-//     orderManager: {
-//         user: Object.assign({}, db.orderManager) as any,
-//     },
-// };
-// delete context.dispatcher.user.password;
-// delete context.HR.user.password;
-// delete context.orderManager.user.password;
-
 export const assets = { db };

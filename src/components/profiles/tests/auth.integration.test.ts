@@ -2,50 +2,61 @@ import { graphqlCall } from "@hr/infrastructure/graphql";
 
 import { Profile as ProfileORM } from "@profiles/adapters/typeorm/models";
 
-// import { assets } from "./assets/auth.assets";
+import { assets } from "./assets/auth.assets";
 import { assets as assetsMe } from "./assets/auth.me.assets";
 // import { issueToken } from "./helpers";
 
-// const debug = require("debug")(
-//     "hr:components:profiles:tests:auth.integration.test",
-// );
+const debug = require("debug")("hr:profiles:tests:auth.integration.test");
 
 beforeEach(async () => {
     await ProfileORM.delete({});
 });
 
 describe("AAA", () => {
-    // test("User can succesfully login", async () => {
-    //     const log = debug.extend("user can succesfully login");
+    test("User can succesfully login", async () => {
+        const log = debug.extend("User can succesfully login");
 
-    //     // prepare data
-    //     for (let profile of assets.db) {
-    //         await ProfileORM.save(ProfileORM.create(profile));
-    //     }
+        // prepare data
+        for (let profile of assets.db) {
+            await ProfileORM.save(ProfileORM.create(profile));
+        }
 
-    //     // call API
-    //     const authInfo = await graphqlCall({
-    //         source: `
-    //             mutation Register($email: String!, $password: String!) {
-    //                 login(email:$email, password:$password) {
-    //                     accessToken
-    //                     refreshToken
-    //                 }
-    //             }
-    //         `,
-    //         variableValues: {
-    //             email: assets.user.email,
-    //             password: assets.user.password,
-    //         },
-    //     });
-    //     log(authInfo);
+        // call API
+        const authInfo = await graphqlCall({
+            source: `
+                mutation Register($data: AuthLoginDTO!) {
+                    login(data:$data) {
+                        accessToken
+                        refreshToken
+                    }
+                }
+            `,
+            variableValues: {
+                data: {
+                    email: assets.user.email,
+                    password: assets.user.password,
+                },
+            },
+        });
+        log(authInfo);
 
-    //     // check response data
-    //     expect(typeof authInfo.data!.login.accessToken).toBe("string");
-    //     expect(authInfo.data!.login.accessToken).not.toBe("");
-    //     expect(typeof authInfo.data!.login.refreshToken).toBe("string");
-    //     expect(authInfo.data!.login.refreshToken).not.toBe("");
-    // });
+        // get real DB data
+        const profileDB = await ProfileORM.find({
+            where: {
+                email: assets.user.email,
+                password: assets.user.password,
+            },
+            relations: ["state", "roles", "refreshTokens"],
+        });
+        log("profileDB:", profileDB);
+
+        // check response data
+        expect(typeof authInfo.data!.login.accessToken).toBe("string");
+        expect(authInfo.data!.login.accessToken).not.toBe("");
+        expect(authInfo.data!.login.refreshToken).toMatch(
+            profileDB[0].refreshTokens[0].token,
+        );
+    });
 
     // test("User gets 'AUTH_WRONG_USER_OR_PASSWORD' on invalid credentials", async () => {
     //     const log = debug.extend(

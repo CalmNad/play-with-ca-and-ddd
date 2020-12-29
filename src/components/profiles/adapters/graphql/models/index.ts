@@ -1,4 +1,5 @@
-// export * from "./auth-info";
+export * from "./auth-info.dto";
+export * from "./auth-login.dto";
 export * from "./profile-create.dto";
 export * from "./profile-filter.dto";
 export * from "./profile-update.dto";

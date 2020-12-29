@@ -13,7 +13,8 @@ require("dotenv").config({
 });
 
 import {
-    // AuthInfo,
+    AuthInfoDTO,
+    AuthLoginDTO,
     ProfileDTO,
     ProfileCreateDTO,
     RoleDTO,
@@ -53,7 +54,8 @@ async function bootstrap() {
                 StateResolver,
             ],
             orphanedTypes: [
-                // AuthInfo,
+                AuthInfoDTO,
+                AuthLoginDTO,
                 ProfileDTO,
                 ProfileCreateDTO,
                 RoleDTO,
@@ -66,7 +68,7 @@ async function bootstrap() {
             schema: applyMiddleware(schema, permissions),
             context: ({ req }) => {
                 // TBD: правильно ли то, что пользователя гонит нам header?
-                console.log("get context:", req.headers.user);
+                // console.log("get context:", req.headers.user);
                 const user = req.headers.user
                     ? JSON.parse(req.headers.user)
                     : null;

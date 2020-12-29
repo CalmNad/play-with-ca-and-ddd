@@ -1,3 +1,4 @@
+export * from "./auth.stories";
 export * from "./profile.stories";
 export * from "./profiles.stories";
 export * from "./roles.stories";

@@ -1,3 +1,6 @@
+export * from "./auth-info.dto.port";
+export * from "./auth-login.dto.port";
+export * from "./auth.stories.port";
 export * from "./profile-create.dto.port";
 export * from "./profile-filter.dto.port";
 export * from "./profile-update.dto.port";

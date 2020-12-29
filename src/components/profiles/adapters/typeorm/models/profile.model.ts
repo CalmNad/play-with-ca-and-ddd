@@ -5,12 +5,13 @@ import {
     JoinTable,
     ManyToMany,
     ManyToOne,
+    OneToMany,
     PrimaryGeneratedColumn,
 } from "typeorm";
 
 import { IProfileDTO } from "@profiles/application/ports/storage";
 
-import { Role, State } from ".";
+import { RefreshToken, Role, State } from ".";
 
 // TBD: определиться с неймингом моделей в typeorm и grapql. где с TBD, а где - без.
 @Entity("profiles")
@@ -36,10 +37,25 @@ export class Profile extends BaseEntity implements IProfileDTO {
     @Column("varchar", { length: 20, select: false })
     password!: string;
 
-    @ManyToMany(() => Role, { cascade: true })
-    @JoinTable()
+    @ManyToMany(() => Role)
+    @JoinTable({
+        name: "profiles_roles_roles",
+        joinColumn: {
+            name: "profileId",
+            referencedColumnName: "id",
+        },
+        inverseJoinColumn: {
+            name: "roleId",
+            referencedColumnName: "id",
+        },
+    })
     roles!: Role[];
 
     @ManyToOne(() => State, { cascade: false })
     state!: State;
+
+    @OneToMany(() => RefreshToken, (refreshToken) => refreshToken.profile, {
+        cascade: true,
+    })
+    refreshTokens!: RefreshToken[];
 }

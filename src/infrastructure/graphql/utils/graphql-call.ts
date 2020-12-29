@@ -5,7 +5,8 @@ import { graphql, GraphQLSchema } from "graphql";
 import { Maybe } from "type-graphql";
 
 import {
-    // AuthInfo,
+    AuthInfoDTO,
+    AuthLoginDTO,
     ProfileDTO,
     ProfileCreateDTO,
     RoleDTO,
@@ -63,7 +64,8 @@ export const graphqlCall = async ({
                 StateResolver,
             ],
             orphanedTypes: [
-                // AuthInfo,
+                AuthInfoDTO,
+                AuthLoginDTO,
                 ProfileDTO,
                 ProfileCreateDTO,
                 RoleDTO,

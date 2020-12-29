@@ -1,4 +1,4 @@
-import { PROFILE_ROLES } from "@profiles/core";
+import { PROFILE_ROLES } from "@profiles/domain/entities";
 
 import * as faker from "faker";
 
@@ -37,6 +37,9 @@ const db = [
     },
 ];
 
-const user = db[0];
+const user = {
+    email: db[0].email,
+    password: db[0].password,
+};
 
 export const assets = { db, user };

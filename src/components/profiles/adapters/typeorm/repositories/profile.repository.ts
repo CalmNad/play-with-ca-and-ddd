@@ -58,13 +58,8 @@ export class ProfileStorage implements IProfileStorage {
         profileData: IProfileUpdateDTO,
     ): Promise<IProfileDTO> {
         // TBD: ?переработать набор входных параметров с profileId + profileData на profileData, содержащий profileId
-        this.profileRepository.findOneOrFail(profileId);
-        let profile = this.profileRepository.create(profileData);
-        profile.id = profileId;
-
-        let rs = await this.profileRepository.save(profile);
-
-        return await this.profileRepository.findOneOrFail(rs.id, {
+        await this.profileRepository.save({ id: profileId, ...profileData });
+        return await this.profileRepository.findOneOrFail(profileId, {
             relations: ["state", "roles"],
         });
     }
